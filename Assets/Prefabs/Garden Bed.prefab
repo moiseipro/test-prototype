@@ -95,7 +95,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 2, z: 0.8}
+  m_Size: {x: 1.5, y: 2, z: 1.5}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &7290825748610658537
 MonoBehaviour:
@@ -111,6 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthTime: 0
   cost: 0
+  objectToSlice: {fileID: 4979854330372825737}
 --- !u!1001 &4978855422418769617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -168,6 +169,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a97ffd75102541b46b48cffc80ef3da0, type: 3}
+--- !u!1 &4979854330372825737 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000012844397656, guid: a97ffd75102541b46b48cffc80ef3da0, type: 3}
+  m_PrefabInstance: {fileID: 4978855422418769617}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4978244906891752111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000011916567678, guid: a97ffd75102541b46b48cffc80ef3da0, type: 3}

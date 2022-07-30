@@ -1,25 +1,16 @@
-using System;
-using EzySlice;
-using UnityEngine;
-
 namespace GardenManagement
 {
-    public class GardenBedFeatures: MonoBehaviour
+    public class GardenBedFeatures
     {
-        [SerializeField]private float growthTime;
-        [SerializeField]private int cost;
+        private float _growthTime;
+        public float GrowthTime => _growthTime;
+        private int _cost;
+        public int Cost => _cost;
 
-        public GameObject objectToSlice; // non-null
-
-
-        public SlicedHull Slice(Vector3 planeWorldPosition, Vector3 planeWorldDirection) {
-            return objectToSlice.Slice(planeWorldPosition, planeWorldDirection);
-        }
-        
-        private void Start()
+        public GardenBedFeatures(float growthTime, int cost)
         {
-            SlicedHull test = Slice(Vector3.up, Vector3.up);
-            objectToSlice.GetComponent<MeshFilter>().mesh = test.lowerHull;
+            _growthTime = growthTime;
+            _cost = cost;
         }
     }
 }
