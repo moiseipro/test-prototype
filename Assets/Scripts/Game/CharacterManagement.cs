@@ -22,20 +22,20 @@ public class CharacterManagement : MonoBehaviour
     private CharacterController _characterController;
     private CharacterAnimation _characterAnimation;
     private GardenBed _gardenBed;
-    
+
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
         _characterAnimation = GetComponentInChildren<CharacterAnimation>();
         _characterAnimation.CutTheGrass += MowedDown;
+        _characterAnimation.FinisMow += LoseTarget;
     }
 
     private void FixedUpdate()
     {
         Move();
-        //Gravity();
-        Debug.Log(_characterController.velocity.magnitude);
+        CheckingGrass();
     }
 
     private void Move()
@@ -55,35 +55,73 @@ public class CharacterManagement : MonoBehaviour
     private void Rotation(Vector3 direction)
     {
         direction.y = 0;
-        if(direction.magnitude > 0.15f) transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+        if(direction.magnitude > 0.2f) transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
     }
 
-    private void OnTriggerStay(Collider other)
+    private void CheckingGrass()
     {
+        RaycastHit hit;
+        Vector3 castPosition = transform.position+Vector3.up;
+        LayerMask layerMask = LayerMask.GetMask("Grass");
+
+        var collision = Physics.OverlapSphere(castPosition, _characterController.height / 2f, layerMask);
+        Debug.Log(collision.Length);
+        if (collision.Length>0)
+        {
+            Debug.Log(_heroState);
+            _gardenBed = collision[0].GetComponent<GardenBed>();
+            if (_characterController.velocity.magnitude < 0.2f)
+            {
+                if (_gardenBed && !_gardenBed.IsCutted && _heroState == HeroState.Free)
+                {
+                    _heroState = HeroState.Mow;
+                    _characterAnimation.Mow();
+                }
+            }
+            else
+            {
+                if(_heroState == HeroState.Mow) LoseTarget();
+            }
+        }
+    }
+
+    /*private void OnTriggerStay(Collider other)
+    {
+        _gardenBed = other.GetComponent<GardenBed>();
+        if (_gardenBed && _gardenBed.IsCutted)
+        {
+            LoseTarget();
+            return;
+        }
         if (_characterController.velocity.magnitude < 0.15f)
         {
-            _gardenBed = other.GetComponent<GardenBed>();
             if (_gardenBed && !_gardenBed.IsCutted && _heroState == HeroState.Free)
             {
                 _heroState = HeroState.Mow;
                 _characterAnimation.Mow();
-                Debug.Log("Triggered");
             }
         }
         else
         {
-            _gardenBed = null;
-            _heroState = HeroState.Free;
+            if (_heroState == HeroState.Mow)
+            {
+                LoseTarget();
+            }
         }
-    }
+    }*/
 
     private void MowedDown()
     {
         if (_gardenBed)
         {
             _gardenBed.Cut();
-            _gardenBed = null;
-            _heroState = HeroState.Free;
         }
+    }
+
+    private void LoseTarget()
+    {
+        _heroState = HeroState.Free;
+        _gardenBed = null;
+        _characterAnimation.StopMow();
     }
 }

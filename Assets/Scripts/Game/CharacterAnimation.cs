@@ -6,9 +6,11 @@ namespace Game
     [RequireComponent(typeof(Animator))]
     public class CharacterAnimation : MonoBehaviour
     {
+        [SerializeField] private GameObject _braid;
         private Animator _animator;
 
         public event Action CutTheGrass;
+        public event Action FinisMow;
 
         private void Awake()
         {
@@ -23,11 +25,27 @@ namespace Game
         public void Mow()
         {
             _animator.SetTrigger("Mow");
+            _braid.SetActive(true);
+        }
+        
+        public void StopMow()
+        {
+            _animator.SetTrigger("StopMow");
+            _braid.SetActive(false);
         }
 
+        // Animation Event
         public void CutGrass()
         {
             CutTheGrass?.Invoke();
         }
+        
+        // Animation Event
+        public void EndMow()
+        {
+            FinisMow?.Invoke();
+        }
+
+        
     }
 }

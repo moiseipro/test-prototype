@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using GardenManagement;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,6 +15,7 @@ namespace Game
         private Transform _targetPickUp;
         
         private MeshRenderer _meshRenderer;
+        private Sequence _doTweenSequence;
 
         private bool _isPicked = false;
         public bool IsPicked => _isPicked;
@@ -24,11 +26,18 @@ namespace Game
             _meshRenderer = GetComponent<MeshRenderer>();
             _rigidbody = GetComponent<Rigidbody>();
             _collider = GetComponent<Collider>();
+            
+            _doTweenSequence = DOTween.Sequence();
         }
 
         public void Initialization(GardenBedFeatures gardenBedFeatures)
         {
             _gardenBedFeatures = gardenBedFeatures;
+        }
+
+        public int GetCostBlock()
+        {
+            return _gardenBedFeatures.Cost;
         }
 
         public void Toss()
@@ -48,18 +57,30 @@ namespace Game
             transform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
+        public void Throw(Transform target)
+        {
+            _targetPickUp = null;
+            transform.DOJump(target.transform.position, 4f, 1, Random.Range(1f, 2f), false).OnComplete(SelfDestruction);
+
+        }
+        
+        private void SelfDestruction()
+        {
+            Destroy(gameObject);
+        }
+
         private void FixedUpdate()
         {
             if (_targetPickUp)
             {
-                transform.position = Vector3.Lerp(
+                transform.position = Vector3.Slerp(
                     transform.position, 
                     _targetPickUp.position - transform.forward/3f + transform.up * _meshRenderer.bounds.size.y/2f * _number, 
-                    Time.fixedDeltaTime * _maxNumber / _number);
-                transform.rotation = Quaternion.Lerp(
+                    Time.fixedDeltaTime * _maxNumber / _number * 2f);
+                transform.rotation = Quaternion.Slerp(
                     transform.rotation, 
                     _targetPickUp.rotation, 
-                    Time.fixedDeltaTime * 2f * _maxNumber / _number);
+                    Time.fixedDeltaTime * _maxNumber / _number * 3f);
                 
             }
         }

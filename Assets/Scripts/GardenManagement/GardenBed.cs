@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using EzySlice;
 using Game;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace GardenManagement
 
         private Mesh _baseMesh;
         private MeshFilter _meshFilter;
+        private SlicedHull _slicedHull;
         
         private bool isCutted = false;
         public bool IsCutted => isCutted;
@@ -31,20 +33,29 @@ namespace GardenManagement
         {
             _meshFilter = objectToSlice.GetComponent<MeshFilter>();
             _baseMesh = objectToSlice.GetComponent<MeshFilter>().mesh;
-        }
-
-        public SlicedHull Slice(Vector3 planeWorldPosition, Vector3 planeWorldDirection) {
-            return objectToSlice.Slice(planeWorldPosition, planeWorldDirection);
+            _slicedHull = objectToSlice.Slice(Vector3.up, Vector3.up);
         }
 
         public void Cut()
         {
-            SlicedHull test = Slice(Vector3.up, Vector3.up);
-            _meshFilter.mesh = test.lowerHull;
+            _meshFilter.mesh = _slicedHull.lowerHull;
             isCutted = true;
             GrassBlock grassBlock = Instantiate(_grassBlockPrefab, transform.position+transform.up, Quaternion.identity);
             grassBlock.Initialization(_gardenBedFeatures);
             grassBlock.Toss();
+            StartCoroutine(GrassGrowth());
+        }
+
+        private void Grow()
+        {
+            _meshFilter.mesh = _baseMesh;
+            isCutted = false;
+        }
+        
+        IEnumerator GrassGrowth()
+        {
+            yield return new WaitForSeconds(_gardenBedFeatures.GrowthTime);
+            Grow();
         }
     }
 }

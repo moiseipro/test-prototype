@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2147586809352886446}
   - component: {fileID: 2147586809352886433}
   - component: {fileID: 7290825748610658537}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Garden Bed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 2, z: 1.5}
+  m_Size: {x: 0.3, y: 2, z: 0.3}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &7290825748610658537
 MonoBehaviour:
@@ -109,8 +109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52fbb23bc7f84500adac2b879512d5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growthTime: 0
-  cost: 0
   objectToSlice: {fileID: 4979854330372825737}
 --- !u!1001 &4978855422418769617
 PrefabInstance:
@@ -122,6 +120,10 @@ PrefabInstance:
     - target: {fileID: 1000012844397656, guid: a97ffd75102541b46b48cffc80ef3da0, type: 3}
       propertyPath: m_Name
       value: Corn_Plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012844397656, guid: a97ffd75102541b46b48cffc80ef3da0, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4000011916567678, guid: a97ffd75102541b46b48cffc80ef3da0, type: 3}
       propertyPath: m_RootOrder
