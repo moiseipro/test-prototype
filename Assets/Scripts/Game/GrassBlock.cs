@@ -44,8 +44,9 @@ namespace Game
 
         public void Toss()
         {
-            float power = Random.Range(1f, 3f);
-            _rigidbody.AddForce(Vector3.up * power, ForceMode.Impulse);
+            float jumpForce = Random.Range(1f, 2f);
+            float deflectionForce = Random.Range(-0.5f, 0.5f);
+            _rigidbody.AddForce(new Vector3(1 * deflectionForce, 1 * jumpForce, 1 * deflectionForce)  , ForceMode.Impulse);
         }
 
         public void PickUp(Transform target, int number, int maxNumber)

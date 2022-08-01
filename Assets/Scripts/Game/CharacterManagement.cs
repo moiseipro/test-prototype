@@ -60,15 +60,12 @@ public class CharacterManagement : MonoBehaviour
 
     private void CheckingGrass()
     {
-        RaycastHit hit;
         Vector3 castPosition = transform.position+Vector3.up;
         LayerMask layerMask = LayerMask.GetMask("Grass");
 
         var collision = Physics.OverlapSphere(castPosition, _characterController.height / 2f, layerMask);
-        Debug.Log(collision.Length);
         if (collision.Length>0)
         {
-            Debug.Log(_heroState);
             _gardenBed = collision[0].GetComponent<GardenBed>();
             if (_characterController.velocity.magnitude < 0.2f)
             {

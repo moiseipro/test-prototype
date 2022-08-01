@@ -9,6 +9,7 @@ namespace GardenManagement
     public class GardenBed: MonoBehaviour
     {
         [SerializeField]private GameObject objectToSlice;
+        [SerializeField] private ParticleSystem _cutEffect;
         private GardenBedFeatures _gardenBedFeatures;
         private GrassBlock _grassBlockPrefab;
 
@@ -43,6 +44,7 @@ namespace GardenManagement
             GrassBlock grassBlock = Instantiate(_grassBlockPrefab, transform.position+transform.up, Quaternion.identity);
             grassBlock.Initialization(_gardenBedFeatures);
             grassBlock.Toss();
+            _cutEffect.Play();
             StartCoroutine(GrassGrowth());
         }
 

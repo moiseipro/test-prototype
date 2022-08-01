@@ -33,7 +33,7 @@ namespace DefaultNamespace.UI
             GameObject animateMoneyIcon = Instantiate(_moneyIcon, Camera.main.WorldToScreenPoint(spawnPoint.position), Quaternion.identity, transform);
             _sequenceDoTween = DOTween.Sequence();
             _sequenceDoTween.Append(animateMoneyIcon.transform.DOMove(_moneyIcon.transform.position, 1f, false));
-            _sequenceDoTween.Insert(1f,_moneyText.transform.DOShakePosition(1f, 10f, 20));
+            _sequenceDoTween.Insert(1f,_moneyText.transform.DOShakePosition(1f, 10f, 10));
             _sequenceDoTween.OnComplete(() => Destroy(animateMoneyIcon));
         }
 
