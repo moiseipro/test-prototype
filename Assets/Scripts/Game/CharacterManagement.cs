@@ -85,31 +85,6 @@ public class CharacterManagement : MonoBehaviour
         }
     }
 
-    /*private void OnTriggerStay(Collider other)
-    {
-        _gardenBed = other.GetComponent<GardenBed>();
-        if (_gardenBed && _gardenBed.IsCutted)
-        {
-            LoseTarget();
-            return;
-        }
-        if (_characterController.velocity.magnitude < 0.15f)
-        {
-            if (_gardenBed && !_gardenBed.IsCutted && _heroState == HeroState.Free)
-            {
-                _heroState = HeroState.Mow;
-                _characterAnimation.Mow();
-            }
-        }
-        else
-        {
-            if (_heroState == HeroState.Mow)
-            {
-                LoseTarget();
-            }
-        }
-    }*/
-
     private void MowedDown()
     {
         if (_gardenBed)

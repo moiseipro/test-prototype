@@ -21,6 +21,8 @@ namespace Game
         public bool IsPicked => _isPicked;
         private int _number, _maxNumber;
 
+        public event Action<GrassBlock> Delivered;
+
         private void Awake()
         {
             _meshRenderer = GetComponent<MeshRenderer>();
@@ -57,16 +59,16 @@ namespace Game
             transform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
-        public void Throw(Transform target)
+        public void SendDelivery(Transform target)
         {
             _targetPickUp = null;
-            transform.DOJump(target.transform.position, 4f, 1, Random.Range(1f, 2f), false).OnComplete(SelfDestruction);
+            transform.DOJump(target.transform.position, 4f, 1, Random.Range(1f, 1.5f), false).OnComplete(Deliver);
 
         }
         
-        private void SelfDestruction()
+        private void Deliver()
         {
-            Destroy(gameObject);
+            Delivered?.Invoke(this);
         }
 
         private void FixedUpdate()

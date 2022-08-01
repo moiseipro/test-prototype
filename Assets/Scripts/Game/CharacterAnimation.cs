@@ -24,13 +24,13 @@ namespace Game
         
         public void Mow()
         {
-            _animator.SetTrigger("Mow");
+            _animator.SetBool("IsMow", true);
             _braid.SetActive(true);
         }
         
         public void StopMow()
         {
-            _animator.SetTrigger("StopMow");
+            _animator.SetBool("IsMow", false);
             _braid.SetActive(false);
         }
 

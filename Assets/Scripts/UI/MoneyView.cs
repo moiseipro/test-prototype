@@ -8,11 +8,13 @@ namespace DefaultNamespace.UI
 {
     public class MoneyView : MonoBehaviour
     {
-        [SerializeField] private MoneyIcon _moneyIcon;
+        [SerializeField] private GameObject _moneyIcon;
         [SerializeField] private TMP_Text _moneyText;
         [SerializeField] private float _counterSpeed = 3;
         private float _moneyCount = 0;
         private StatisticsCounter _statisticsCounter;
+        
+        private Sequence _sequenceDoTween;
 
         private void Awake()
         {
@@ -28,8 +30,11 @@ namespace DefaultNamespace.UI
 
         private void AnimateCoin(Transform spawnPoint)
         {
-            MoneyIcon animateMoneyIcon = Instantiate(_moneyIcon, Camera.main.WorldToScreenPoint(spawnPoint.position), Quaternion.identity, transform);
-            animateMoneyIcon.MoveToTarget(_moneyIcon.transform);
+            GameObject animateMoneyIcon = Instantiate(_moneyIcon, Camera.main.WorldToScreenPoint(spawnPoint.position), Quaternion.identity, transform);
+            _sequenceDoTween = DOTween.Sequence();
+            _sequenceDoTween.Append(animateMoneyIcon.transform.DOMove(_moneyIcon.transform.position, 1f, false));
+            _sequenceDoTween.Insert(1f,_moneyText.transform.DOShakePosition(1f, 10f, 20));
+            _sequenceDoTween.OnComplete(() => Destroy(animateMoneyIcon));
         }
 
         private void OnDisable()
